@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stock Market Analysis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Portfolio Dashboard</p>
+        <h1>Stock Market Analysis</h1>
+      </div>
+      <div id="status" class="status">Loading market data…</div>
+    </header>
+
+    <section class="dashboard">
+      <section class="chart-section card">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Price history</p>
+            <h2 id="chart-title">Loading…</h2>
+          </div>
+          <div class="range-buttons" id="range-buttons">
+            <button class="range-btn active" data-range="1month">1month</button>
+            <button class="range-btn" data-range="3month">3month</button>
+            <button class="range-btn" data-range="1year">1year</button>
+            <button class="range-btn" data-range="5year">5year</button>
+          </div>
+        </div>
+
+        <div class="chart-wrap">
+          <canvas id="stock-chart"></canvas>
+          <div id="chart-loading" class="chart-loading hidden">Loading chart…</div>
+        </div>
+
+        <div class="extremes">
+          <div><span>Peak</span><strong id="peak-value">—</strong></div>
+          <div><span>Low</span><strong id="low-value">—</strong></div>
+        </div>
+
+        <section class="details-section">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Company details</p>
+              <h2 id="detail-name">—</h2>
+            </div>
+          </div>
+          <div class="detail-grid">
+            <div class="metric">
+              <span>Book Value</span>
+              <strong id="detail-book-value">—</strong>
+            </div>
+            <div class="metric">
+              <span>Profit</span>
+              <strong id="detail-profit">—</strong>
+            </div>
+          </div>
+          <p id="detail-summary" class="summary">Select a stock to view its summary.</p>
+        </section>
+      </section>
+
+      <aside class="list-section card">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Your portfolio</p>
+            <h2>Stocks</h2>
+          </div>
+          <span id="stock-count" class="count">10</span>
+        </div>
+        <div id="stock-list" class="stock-list"></div>
+      </aside>
+    </section>
+  </main>
+
+  <script type="module" src="./js/main.js"></script>
+</body>
+</html>
