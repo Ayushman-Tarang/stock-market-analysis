@@ -11,70 +11,79 @@ export function renderChart(symbol, range, rawPoints) {
     state.chart.destroy();
   }
 
-  const labels = points.map(point => formatDate(point.timestamp));
-  const prices = points.map(point => point.price);
+  const labels = points.map((point) => formatDate(point.timestamp));
+  const prices = points.map((point) => point.price);
 
   state.chart = new Chart(ctx, {
     type: "line",
     data: {
       labels,
-      datasets: [{
-        label: symbol,
-        data: prices,
-        borderWidth: 2,
-        pointRadius: 0,
-        pointHoverRadius: 5,
-        tension: 0.2,
-        fill: true,
-        backgroundColor: "rgba(38, 59, 103, 0.08)",
-        borderColor: "#263b67",
-        pointBackgroundColor: "#263b67"
-      }]
+      datasets: [
+        {
+          label: symbol,
+          data: prices,
+          borderWidth: 2,
+          pointRadius: 0,
+          pointHoverRadius: 5,
+          tension: 0.2,
+          fill: true,
+          backgroundColor: "rgba(38, 59, 103, 0.08)",
+          borderColor: "#263b67",
+          pointBackgroundColor: "#263b67",
+        },
+      ],
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
       interaction: {
-        mode: "index",
-        intersect: false
+        mode: "nearest",
+        intersect: false,
+        axis: "x",
       },
+      hover: {
+        animationDuration: 250,
+      },
+
       plugins: {
         legend: { display: false },
         tooltip: {
+          animation: {
+            duration: 200,
+          },
           callbacks: {
-            title: items => {
+            title: (items) => {
               const index = items[0]?.dataIndex ?? 0;
               return points[index] ? formatDate(points[index].timestamp) : "";
             },
-            label: item => `${symbol}: ${formatMoney(item.raw)}`
-          }
-        }
+            label: (item) => `${symbol}: ${formatMoney(item.raw)}`,
+          },
+        },
       },
       scales: {
         x: {
           title: {
             display: true,
-            text: "Date"
+            text: "Date",
           },
           ticks: {
-            maxTicksLimit: 10
-          }
+            maxTicksLimit: 10,
+          },
         },
         y: {
           title: {
             display: true,
-            text: "Price"
+            text: "Price",
           },
           ticks: {
-            callback: value => `$${Number(value).toLocaleString()}`
-          }
-        }
-      }
-    }
+            callback: (value) => `$${Number(value).toLocaleString()}`,
+          },
+        },
+      },
+    },
   });
 
-  document.querySelector("#chart-title").textContent =
-    `${symbol} — ${range}`;
+  document.querySelector("#chart-title").textContent = `${symbol} — ${range}`;
 
   const peak = prices.length ? Math.max(...prices) : null;
   const low = prices.length ? Math.min(...prices) : null;
